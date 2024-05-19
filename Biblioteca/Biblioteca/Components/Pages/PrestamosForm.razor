@@ -1,0 +1,101 @@
+﻿@page "/prestamos/nuevo"
+@page "/prestamos/editar/{Id:int}"
+@rendermode InteractiveServer
+@inject NavigationManager _navigator
+@inject IRepositorioPrestamos _repositorioPrestamos
+@inject IRepositorioUsuarios _repositorioUsuarios
+@inject IRepositorioLibros _repositorioLibros
+<h3>@_mensaje Prestamo</h3>
+
+<EditForm Model="_prestamo" OnValidSubmit="Guardar">
+    <DataAnnotationsValidator />
+    <div class="row mb-3">
+        <label for="usuarioSelect" class="col-2 col-form-label">Usuario</label>
+        <div class="col-10">
+            <InputSelect id="usuarioSelect" class="form-select" @bind-Value="_prestamo.IDUsuario">
+                <option value="">Seleccionar usuario</option>
+                @foreach (var usuario in _usuarios)
+                {
+                    <option value="@usuario.ID">@usuario.Nombre @usuario.Apellido</option>
+                }
+            </InputSelect>
+            <ValidationMessage For="()=>_prestamo.IDUsuario" />
+        </div>
+    </div>
+    <div class="row mb-3">
+        <label for="libroSelect" class="col-2 col-form-label">Libro</label>
+        <div class="col-10">
+            <InputSelect id="libroSelect" class="form-select" @bind-Value="_prestamo.IdLibro">
+                <option value="">Seleccionar libro</option>
+                @foreach (var libro in _libros)
+                {
+                    <option value="@libro.Id">@libro.Titulo</option>
+                }
+            </InputSelect>
+            <ValidationMessage For="()=>_prestamo.IdLibro" />
+        </div>
+    </div>
+    <div class="row mb-3">
+        <label for="fechaPrestamo" class="col-2 col-form-label">Fecha de Préstamo</label>
+        <div class="col-10">
+            <InputDate id="fechaPrestamo" class="form-control" @bind-Value="_prestamo.FechaPrestamo" />
+            <ValidationMessage For="()=>_prestamo.FechaPrestamo" />
+        </div>
+    </div>
+    <div class="row mb-3">
+        <label for="fechaDevolucionPrevista" class="col-2 col-form-label">Fecha de Devolución Prevista</label>
+        <div class="col-10">
+            <InputDate id="fechaDevolucionPrevista" class="form-control" @bind-Value="_prestamo.FechaDevolucionPrevista" />
+            <ValidationMessage For="()=>_prestamo.FechaDevolucionPrevista" />
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <button class="btn btn-danger ms-3" @onclick="Cancelar" @onclick:preventDefault>Cancelar</button>
+</EditForm>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    private string _mensaje = "";
+    private Prestamo? _prestamo = new Prestamo
+    {
+        Usuario = new Usuario(),
+        Libro = new Libro()
+    };
+    private List<Usuario> _usuarios = new();
+    private List<Libro> _libros = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        _usuarios = await _repositorioUsuarios.GetAll();
+        _libros = await _repositorioLibros.GetAll();
+
+        if (Id > 0)
+        {
+            _prestamo = await _repositorioPrestamos.Get(Id);
+            _mensaje = "Modificar";
+        }
+        else
+        {
+            _mensaje = "Nuevo";
+        }
+    }
+
+    private async void Guardar()
+    {
+        if (Id > 0)
+        {
+            await _repositorioPrestamos.Update(Id, _prestamo!);
+        }
+        else
+        {
+            await _repositorioPrestamos.Add(_prestamo!);
+        }
+        Cancelar();
+    }
+
+    private void Cancelar()
+    {
+        _navigator.NavigateTo("/prestamos");
+    }
+}
