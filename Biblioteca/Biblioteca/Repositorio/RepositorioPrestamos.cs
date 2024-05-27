@@ -34,7 +34,7 @@ namespace Biblioteca.Repositorio
 
         public async Task<List<Prestamo>> GetAll()
         {
-            return await _context.Prestamos.ToListAsync();
+            return await _context.Prestamos.Include(l=>l.Libro).Include(u=>u.Usuario).ToListAsync();
         }
 
         public async Task Update(int id, Prestamo prestamo)
@@ -42,8 +42,8 @@ namespace Biblioteca.Repositorio
             var prestamoactual = await _context.Prestamos.FindAsync(id);
             if (prestamoactual != null)
             {
-                prestamoactual.IDUsuario = prestamo.IDUsuario;
-                prestamoactual.IdLibro = prestamo.IdLibro;
+                prestamoactual.UsuarioId = prestamo.UsuarioId;
+                prestamoactual.LibroId = prestamo.LibroId;
                 prestamoactual.FechaPrestamo = prestamo.FechaPrestamo;
                 prestamoactual.FechaDevolucionPrevista = prestamo.FechaDevolucionPrevista;
 

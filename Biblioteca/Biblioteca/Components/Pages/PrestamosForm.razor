@@ -12,27 +12,27 @@
     <div class="row mb-3">
         <label for="usuarioSelect" class="col-2 col-form-label">Usuario</label>
         <div class="col-10">
-            <InputSelect id="usuarioSelect" class="form-select" @bind-Value="_prestamo.IDUsuario">
+            <InputSelect id="usuarioSelect" class="form-select" @bind-Value="_prestamo.UsuarioId">
                 <option value="">Seleccionar usuario</option>
                 @foreach (var usuario in _usuarios)
                 {
                     <option value="@usuario.ID">@usuario.Nombre @usuario.Apellido</option>
                 }
             </InputSelect>
-            <ValidationMessage For="()=>_prestamo.IDUsuario" />
+            <ValidationMessage For="()=>_prestamo.UsuarioId" />
         </div>
     </div>
     <div class="row mb-3">
         <label for="libroSelect" class="col-2 col-form-label">Libro</label>
         <div class="col-10">
-            <InputSelect id="libroSelect" class="form-select" @bind-Value="_prestamo.IdLibro">
+            <InputSelect id="libroSelect" class="form-select" @bind-Value="_prestamo.LibroId">
                 <option value="">Seleccionar libro</option>
                 @foreach (var libro in _libros)
                 {
                     <option value="@libro.Id">@libro.Titulo</option>
                 }
             </InputSelect>
-            <ValidationMessage For="()=>_prestamo.IdLibro" />
+            <ValidationMessage For="()=>_prestamo.LibroId" />
         </div>
     </div>
     <div class="row mb-3">
@@ -57,11 +57,7 @@
     [Parameter]
     public int Id { get; set; }
     private string _mensaje = "";
-    private Prestamo? _prestamo = new Prestamo
-    {
-        Usuario = new Usuario(),
-        Libro = new Libro()
-    };
+    private Prestamo? _prestamo = new();
     private List<Usuario> _usuarios = new();
     private List<Libro> _libros = new();
 

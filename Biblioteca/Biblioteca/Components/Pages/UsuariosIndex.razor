@@ -33,7 +33,7 @@ else
                     <td>@usuario.Nombre</td>
                     <td>@usuario.Apellido</td>
                     <td>@usuario.Correo</td>
-                    <td>@usuario.TipoDeUsuario</td>
+                    <td>@usuario.TipoDeUsuario?.Tipo</td>
                     <td>
                         <button class="btn btn-sm" title="Modificar" @onclick="()=>Modificar(usuario.ID)">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
