@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34622.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Biblioteca", "Biblioteca\Biblioteca\Biblioteca.csproj", "{CEDAD3D6-5B3C-4978-B7E0-7794F38C9D6C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Biblioteca", "Biblioteca\Biblioteca\Biblioteca.csproj", "{CEDAD3D6-5B3C-4978-B7E0-7794F38C9D6C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Biblioteca.Client", "Biblioteca\Biblioteca.Client\Biblioteca.Client.csproj", "{3A290506-785A-419B-BD04-28B06AD8086E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Biblioteca.Client", "Biblioteca\Biblioteca.Client\Biblioteca.Client.csproj", "{3A290506-785A-419B-BD04-28B06AD8086E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

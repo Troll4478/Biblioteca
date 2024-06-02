@@ -6,12 +6,12 @@ namespace Biblioteca.Modelos
     {
         public int Id { get; set; }
 
-        [Range(1, int.MaxValue, ErrorMessage = "El ID del usuario es requerido")]
+        [Range(1, int.MaxValue, ErrorMessage = "El usuario es requerido")]
         public int UsuarioId { get; set; }
 
         virtual public Usuario? Usuario { get; set; }
 
-        [Range(1, int.MaxValue, ErrorMessage = "El ID del libro es requerido")]
+        [Range(1, int.MaxValue, ErrorMessage = "El libro es requerido")]
         public int LibroId { get; set; }
 
         virtual public Libro? Libro { get; set; }

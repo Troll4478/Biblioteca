@@ -12,6 +12,18 @@ namespace Biblioteca.Repositorio
         }
         public async Task<Prestamo> Add(Prestamo prestamo)
         {
+            prestamo.Usuario = await _context.Usuarios.FindAsync(prestamo.UsuarioId)
+                                ?? throw new ArgumentException("Usuario no encontrado");
+            prestamo.Libro = await _context.Libros.FindAsync(prestamo.LibroId)
+                               ?? throw new ArgumentException("Libro no encontrado");
+
+            if (prestamo.Libro.NumeroEjemplares <= 0)
+            {
+                throw new InvalidOperationException("No hay ejemplares disponibles para prestar.");
+            }
+
+            prestamo.Libro.NumeroEjemplares--;
+
             await _context.Prestamos.AddAsync(prestamo);
             await _context.SaveChangesAsync();
             return prestamo;
@@ -19,9 +31,12 @@ namespace Biblioteca.Repositorio
 
         public async Task Delete(int id)
         {
-            var prestamo = await _context.Prestamos.FindAsync(id);
+            var prestamo = await _context.Prestamos.Include(p => p.Libro).FirstOrDefaultAsync(p => p.Id == id);
             if (prestamo != null)
             {
+                // Incrementar la cantidad de ejemplares disponibles del libro
+                prestamo.Libro.NumeroEjemplares++;
+
                 _context.Prestamos.Remove(prestamo);
                 await _context.SaveChangesAsync();
             }
